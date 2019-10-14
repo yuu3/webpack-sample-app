@@ -1,3 +1,2 @@
-import hello from './modules/hello'
-
-hello()
+import allow from './modules/es6/arrow'
+import classes from './modules/es6/class'
