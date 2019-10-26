@@ -1,14 +1,14 @@
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 
 module.exports = {
   mode: 'development',
-  entry: {
-    app :'./src/app.js',
-  },
+  entry: './src/app.js',
   output: {
+    filename: 'app.js',
     path: path.resolve(__dirname,'dist'),
-    filename: 'app.js'
   },
   devtool: 'inline-source-map',
   devServer: {
@@ -28,6 +28,15 @@ module.exports = {
         }
       },
       {
+        test: /\.scss$/,
+        exclude: /node_modules/,
+        use: [
+          { loader: MiniCssExtractPlugin.loader },
+          { loader: 'css-loader'},
+          { loader: 'sass-loader'},
+        ],
+      },
+      {
         test: /\.(png|svg|jpg|gif)$/,
         exclude: /node_modules/,
         use: ['file-loader'],
@@ -35,12 +44,13 @@ module.exports = {
     ]
   },
   plugins: [
+    new MiniCssExtractPlugin({}),
     new HtmlWebpackPlugin({
       template: './public/index.html',
       filename: 'index.html',
-      main: {
-        entry: "./app.js"
-      }
-    })
-  ]
+      meta: {
+        viewport: 'width=device-width, initial-scale=1, shrink-to-fit=no'
+      },
+    }),
+  ],
 }
