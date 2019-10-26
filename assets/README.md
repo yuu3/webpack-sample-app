@@ -1,8 +1,8 @@
 # use flocss
 
-*foundation
-*layout
-*object
+* foundation
+* layout
+* object
 
 ## foundation
 Define the underlying style.
