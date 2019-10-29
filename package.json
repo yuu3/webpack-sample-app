@@ -4,9 +4,11 @@
   "description": "",
   "private": true,
   "scripts": {
-    "start": "webpack-dev-server --open",
+    "dev": "webpack-dev-server --mode development --open",
+    "prod": "webpack-dev-server ---mode production",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "main": "webpack.config.js",
   "keywords": [],
   "author": "",
   "license": "ISC",
@@ -22,6 +24,7 @@
     "optimize-css-assets-webpack-plugin": "^5.0.3",
     "sass-loader": "^8.0.0",
     "style-loader": "^1.0.0",
+    "uglifyjs-webpack-plugin": "^2.2.0",
     "webpack": "^4.41.1",
     "webpack-cli": "^3.3.9",
     "webpack-dev-server": "^3.8.2"
