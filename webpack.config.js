@@ -1,20 +1,18 @@
 const path = require('path')
-const weboack = require('webpack')
-const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
+const UglifyJSPlugin = require('uglifyjs-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 
 module.exports = env => {
   const NODE_ENV = (env && env.production) ? 'production' : 'development'
   return [{
     /**
-     * Module for JavaScript
+     * module for JavaScript
      */
     mode: NODE_ENV,
     context: path.resolve(__dirname, './src'),
     entry: {
-      app: path.resolve(__dirname, './src/app.js')
+      app: path.resolve(__dirname, './src/app.js'),
     },
     output: {
       filename: 'app.js',
@@ -45,10 +43,7 @@ module.exports = env => {
       ]
     },
     optimization: {
-      minimizer: NODE_ENV === 'production' ? [
-        // new webpack.optimize.OccurrenceOrderPlugin(false),
-      ] : [
-        // new webpack.optimize.OccurrenceOrderPlugin(true),
+      minimizer: NODE_ENV === 'production' ? [] : [
         new UglifyJSPlugin({
           cache: true,
           exclude: /\/node_modules/,
@@ -75,39 +70,36 @@ module.exports = env => {
       app: path.resolve(__dirname, './assets/app.scss')
     },
     output: {
-      path: path.resolve(__dirname,'./dist'),
+      path: path.resolve(__dirname, './dist'),
       filename: 'app.css'
     },
     devtool: NODE_ENV === 'development' ? 'source-map' : 'none',
-    context: path.resolve(__dirname, 'assets'),
+    context: path.resolve(__dirname, './assets'),
     module: {
       rules: [{
-        test: /\.css$/,
+        test: /\.(sc|c)ss$/,
         use: [
           MiniCssExtractPlugin.loader,
-          'style-loader',
+          {
+            loader: 'css-loader',
+            options: {
+              url: false,
+            }
+          },
+          'sass-loader'
         ]
-      },{
-        test: /\.scss$/,
-        use: [{
-          loader: 'css-loader',
-        },{
-          loader: 'sass-loader',
-          options: {
-            sourceMap: NODE_ENV === 'development'
-          }
-        }]
-      }]
+      }],
     },
     plugins: [
-    //   new OptimizeCssAssetsPlugin({}),
       new MiniCssExtractPlugin({
-        filename: path.resolve(__dirname, './dist/app.css')
+        filename: path.resolve(__dirname, './dist/app.css'),
       })
     ],
     optimization: {
       minimizer: [
-        // new OptimizeCssAssetsPlugin({})
+        new MiniCssExtractPlugin({
+          filename: path.resolve(__dirname, './dist/app.css'),
+        }),
       ]
     }
   }]
