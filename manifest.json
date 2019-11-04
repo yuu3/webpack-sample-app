@@ -1,0 +1,15 @@
+{
+  "name": "webpack template",
+  "short_name": "webpack",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#FFFFFF",
+  "theme_color": "#9ED4F6",
+  "icon": [
+    {
+      "src": "./dist/webpack.png",
+      "type": "image/png",
+      "sizes": "512×512"
+    }
+  ]
+}

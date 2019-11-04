@@ -1,7 +1,11 @@
 const path = require('path')
+const fs = require('fs')
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const FaviconsWebpackPlugin = require('favicons-webpack-plugin')
+const CopyWebpackPlugin = require('copy-webpack-plugin')
+const WorkboxWebpackPlugin = require('workbox-webpack-plugin');
 
 module.exports = env => {
   const NODE_ENV = (env && env.production) ? 'production' : 'development'
@@ -21,12 +25,15 @@ module.exports = env => {
     devtool: NODE_ENV === 'development' ? 'source-map' : 'none',
     devServer: {
       clientLogLevel: 'warning',
-      contentBase: './dist',
+      contentBase: path.resolve(__dirname,'dist'),
       overlay: true,
       inline: true,
       disableHostCheck: true,
-      host: '0.0.0.0',
-      port: 3000
+      port: 3000,
+      https: {
+        key: fs.readFileSync(path.resolve(__dirname, './localhost-key.pem')),
+        cert: fs.readFileSync(path.resolve(__dirname, './localhost.pem'))
+      }
     },
     module: {
       rules: [
@@ -54,6 +61,24 @@ module.exports = env => {
       new HtmlWebpackPlugin({
         template: path.resolve(__dirname, './public/index.html'),
         filename: 'index.html',
+      }),
+      new FaviconsWebpackPlugin({
+        logo: path.resolve(__dirname, './public/webpack.png'),
+        prefix: './dist/',
+        outputPath: path.resolve(__dirname, './dist')
+      }),
+      new CopyWebpackPlugin([
+        {
+          from: path.resolve(__dirname, './manifest.json'),
+          to: path.resolve(__dirname, './dist')
+        }
+      ]),
+      new WorkboxWebpackPlugin.GenerateSW({
+        // globDirectory: path.resolve(__dirname, './dist'),
+        // globPatterns: ['*.{html,js,css}', 'images/**/*.{jpg,jpeg,png,gif,webp,svg}'],
+        swDest: path.resolve(__dirname, './dist/sw.js'),
+        clientsClaim: true,
+        skipWaiting: true,
       }),
     ],
     resolve: {
