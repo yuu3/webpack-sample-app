@@ -1,15 +1,14 @@
 {
-  "name": "webpack template",
-  "short_name": "webpack",
-  "display": "standalone",
-  "orientation": "any",
+  "name": "webpack template app",
+  "short_name": "webpackTemp",
+  "theme_color": "#FFFFFF",
   "background_color": "#FFFFFF",
-  "theme_color": "#9ED4F6",
-  "icon": [
-    {
-      "src": "./dist/webpack.png",
-      "type": "image/png",
-      "sizes": "512×512"
-    }
-  ]
+  "display": "standalone",
+  "Scope": "/",
+  "icons": [{
+    "src": "./public/webpack.png",
+    "sizes": "512x512",
+    "type": "image/png"
+  }],
+  "splash_pages": null
 }
