@@ -1,9 +1,9 @@
-# Webpack Sample
+# Webpack Template
 
 ### Introduction
 ```bash
-$ git clone https://github.com/yuu3/webpack-sample-app.git
-$ cd webpack-sample-app
+$ git clone https://github.com/yuu3/webpack-template.git
+$ cd webpack-tempalte
 $ npm i
 
 /* development mode */

@@ -4,16 +4,11 @@ const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
-const CopyWebpackPlugin = require('copy-webpack-plugin');
-const WorkboxWebpackPlugin = require('workbox-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 module.exports = env => {
   const NODE_ENV = (env && env.production) ? 'production' : 'development'
   return {
-    /**
-     * module for JavaScript
-     */
     mode: NODE_ENV,
     context: path.resolve(__dirname, './src'),
     entry: {
@@ -91,11 +86,6 @@ module.exports = env => {
         logo: path.resolve(__dirname, './public/webpack.png'),
         prefix: 'dist',
         outputPath: path.resolve(__dirname, './dist')
-      }),
-      new WorkboxWebpackPlugin.GenerateSW({
-        swDest: path.resolve(__dirname, './dist/sw.js'),
-        clientsClaim: true,
-        skipWaiting: true,
       })
     ],
     optimization: {
@@ -108,6 +98,6 @@ module.exports = env => {
       splitChunks: {
         chunks: 'all',
       }
-    },
+    }
   }
 }
